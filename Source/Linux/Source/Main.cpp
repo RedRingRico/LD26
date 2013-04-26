@@ -1,8 +1,15 @@
-#include <iostream>
+#include <Game.hpp>
 
 int main( int p_Argc, char **p_ppArgv )
 {
-	std::cout << "Ludum Dare #26 entry" << std::endl;
-	return 0;
+	LD26::Game TheGame;
+
+	if( TheGame.Initialise( ZED_FALSE ) != ZED_OK )
+	{
+		zedTrace( "Failed to initialise game instance\n" );
+		return ZED_FAIL;
+	}
+
+	return TheGame.Execute( );
 }
 
