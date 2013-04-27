@@ -1,4 +1,5 @@
 #include <Game.hpp>
+#include <Time.hpp>
 #include <LinuxRendererOGL3.hpp>
 #include <LinuxInputManager.hpp>
 #include <LinuxWindow.hpp>
@@ -143,6 +144,13 @@ namespace LD26
 		ZED::Renderer::ZED_WINDOWDATA WinData = m_pWindow->WindowData( );
 		m_pRenderer->ForceClear( ZED_TRUE, ZED_TRUE, ZED_TRUE );
 
+		ZED_UINT64 ElapsedTime = 0ULL;
+		ZED_UINT64 TimeStep = 16667ULL;
+		ZED_UINT64 OldTime = ZED::System::GetTimeMiS( );
+		ZED_UINT64 FrameTime = ZED::System::GetTimeMiS( );
+		ZED_MEMSIZE FrameRate = 0;
+		ZED_UINT64 Accumulator = 0ULL;
+
 		while( m_Running == ZED_TRUE )
 		{
 			m_pInputManager->Update( );
@@ -183,8 +191,34 @@ namespace LD26
 				}
 			}
 
-			this->Update( 0.0f );
+			const ZED_UINT64 NewTime = ZED::System::GetTimeMiS( );
+			ZED_UINT64 DeltaTime = NewTime-OldTime;
+
+			if( DeltaTime > 250000ULL )
+			{
+				DeltaTime = 250000ULL;
+			}
+
+			OldTime = NewTime;
+
+			Accumulator += DeltaTime;
+
+			while( Accumulator >= TimeStep )
+			{
+				this->Update( 0.0f );
+				ElapsedTime += TimeStep;
+				Accumulator -= TimeStep;
+			}
+
 			this->Render( );
+			++FrameRate;
+
+			if( ( NewTime - FrameTime ) >= 1000000ULL )
+			{
+				zedTrace( "FPS: %d\n", FrameRate );
+				FrameTime = ZED::System::GetTimeMiS( );
+				FrameRate = 0;
+			}
 		}
 		return ZED_OK;
 	}
