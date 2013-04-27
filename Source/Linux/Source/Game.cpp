@@ -2,6 +2,7 @@
 #include <LinuxRendererOGL3.hpp>
 #include <LinuxInputManager.hpp>
 #include <LinuxWindow.hpp>
+#include <unistd.h>
 
 namespace LD26
 {
@@ -140,6 +141,7 @@ namespace LD26
 		KeySym Key;
 		m_Running = ZED_TRUE;
 		ZED::Renderer::ZED_WINDOWDATA WinData = m_pWindow->WindowData( );
+		m_pRenderer->ForceClear( ZED_TRUE, ZED_TRUE, ZED_TRUE );
 
 		while( m_Running == ZED_TRUE )
 		{
