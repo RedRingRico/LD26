@@ -33,6 +33,8 @@ namespace LD26
 	protected:
 		ZED_UINT32							m_ID;
 		ZED::Arithmetic::Vector3			m_Position;
+
+	public:
 		static ZED::Arithmetic::Matrix4x4	m_ViewProjection;
 		static ZED::Renderer::Renderer		*m_pRenderer;
 	};

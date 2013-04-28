@@ -132,9 +132,11 @@ namespace LD26
 			pScreenSizes = ZED_NULL;
 		}
 
-		m_Level.SetRenderer( m_pRenderer );
+		LD26::GameEntity::m_pRenderer =  m_pRenderer;
+		m_pHero = new LD26::PlayerEntity( m_pInputManager );
 
 		m_EntityManager.Add( &m_Level );
+		m_EntityManager.Add( m_pHero );
 
 		return ZED_OK;
 	}

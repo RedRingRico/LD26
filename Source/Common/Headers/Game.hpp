@@ -11,6 +11,7 @@
 #include <GameEntityManager.hpp>
 #include <Level.hpp>
 #include <Keyboard.hpp>
+#include <PlayerEntity.hpp>
 
 namespace LD26
 {
@@ -53,6 +54,7 @@ namespace LD26
 		ZED::System::Keyboard				m_Keyboard;
 		LD26::GameEntityManager				m_EntityManager;
 		LD26::Level							m_Level;
+		LD26::PlayerEntity					*m_pHero;
 	};
 }
 

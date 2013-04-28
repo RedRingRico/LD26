@@ -121,8 +121,8 @@ namespace LD26
 		ZED::Arithmetic::Matrix4x4 WorldMatrix;
 		ZED::Arithmetic::Matrix4x4 PerspProj;
 		ZED::Arithmetic::Matrix4x4 WVP;
-		ZED::Arithmetic::Vector3 Position( 0.0f, 0.0f, 10.0f );
-		ZED::Arithmetic::Vector3 Look( 0.0f, 0.0f, 0.0f );
+		ZED::Arithmetic::Vector3 Position( 0.0f, 170.0f, 10.0f );
+		ZED::Arithmetic::Vector3 Look( 0.0f, 100.0f, -100.0f );
 		ZED::Arithmetic::Vector3 Up( 0.0f, 1.0f, 0.0f );
 //		m_Position.X( m_XTrans );
 		m_pRenderer->SetViewLookAt( Position, Look, Up );
