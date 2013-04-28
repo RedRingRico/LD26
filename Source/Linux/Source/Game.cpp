@@ -132,6 +132,10 @@ namespace LD26
 			pScreenSizes = ZED_NULL;
 		}
 
+		m_Level.SetRenderer( m_pRenderer );
+
+		m_EntityManager.Add( &m_Level );
+
 		return ZED_OK;
 	}
 
@@ -225,11 +229,13 @@ namespace LD26
 
 	void Game::Update( const ZED_FLOAT64 p_ElapsedGameTime )
 	{
+		m_EntityManager.Update( );
 	}
 
 	void Game::Render( )
 	{
 		m_pRenderer->BeginScene( ZED_TRUE, ZED_TRUE, ZED_TRUE );
+		m_EntityManager.Render( );
 		m_pRenderer->EndScene( );
 	}
 }

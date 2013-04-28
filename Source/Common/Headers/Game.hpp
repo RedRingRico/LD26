@@ -8,6 +8,8 @@
 #include <cstdio>
 #include <Shader.hpp>
 #include <InputManager.hpp>
+#include <GameEntityManager.hpp>
+#include <Level.hpp>
 #include <Keyboard.hpp>
 
 namespace LD26
@@ -49,6 +51,8 @@ namespace LD26
 		ZED::Renderer::Window				*m_pWindow;
 		ZED::System::InputManager			*m_pInputManager;
 		ZED::System::Keyboard				m_Keyboard;
+		LD26::GameEntityManager				m_EntityManager;
+		LD26::Level							m_Level;
 	};
 }
 

@@ -4,8 +4,9 @@
 #include <DataTypes.hpp>
 #include <Vector3.hpp>
 #include <Matrix4x4.hpp>
+#include <Renderer.hpp>
 
-namespace Dawn
+namespace LD26
 {
 	class GameEntity
 	{
@@ -18,6 +19,12 @@ namespace Dawn
 			const ZED_FLOAT32 p_Z );
 		ZED_INLINE void Position( ZED::Arithmetic::Vector3 &p_Vector );
 
+		ZED_INLINE void SetRenderer( ZED::Renderer::Renderer *p_pRenderer )
+			{ m_pRenderer = p_pRenderer;}
+		ZED_INLINE void SetViewProjection(
+			const ZED::Arithmetic::Matrix4x4 &p_ViewProjection )
+			{ m_ViewProjection = p_ViewProjection; }
+
 		virtual ZED_UINT32 Initialise( ) = 0;
 
 		virtual void Update( ) = 0;
@@ -27,6 +34,7 @@ namespace Dawn
 		ZED_UINT32							m_ID;
 		ZED::Arithmetic::Vector3			m_Position;
 		static ZED::Arithmetic::Matrix4x4	m_ViewProjection;
+		static ZED::Renderer::Renderer		*m_pRenderer;
 	};
 }
 
