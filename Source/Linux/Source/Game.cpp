@@ -98,6 +98,9 @@ namespace LD26
 			Y = ( NativeSize.Height / 2 ) - ( Height / 2 );
 		}
 
+//		Width = 800;
+//		Height = 600;
+
 		m_pWindow->Create( X, Y, Width, Height );
 
 		m_Canvas.Width( Width );

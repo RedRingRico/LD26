@@ -22,6 +22,15 @@ namespace LD26
 	private:
 		ZED::System::InputManager	*m_pInputManager;
 		ZED::System::Keyboard		*m_pKeyboard;
+		ZED::Arithmetic::Vector3	m_AvatarHeadOffset;
+		ZED::Arithmetic::Matrix4x4	m_RotationMatrix;
+		ZED::Arithmetic::Vector3	m_HeadOffset;
+		ZED::Arithmetic::Vector3	m_CameraPosition;
+		ZED::Arithmetic::Vector3	m_CameraReference;
+		ZED::Arithmetic::Vector3	m_TransformedReference;
+		ZED::Arithmetic::Vector3	m_CameraLookAt;
+		ZED_FLOAT32					m_Yaw;
+		ZED_FLOAT32					m_Pitch;
 	};
 }
 

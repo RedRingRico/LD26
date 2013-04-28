@@ -122,10 +122,10 @@ namespace LD26
 		ZED::Arithmetic::Matrix4x4 PerspProj;
 		ZED::Arithmetic::Matrix4x4 WVP;
 		ZED::Arithmetic::Vector3 Position( 0.0f, 170.0f, 10.0f );
-		ZED::Arithmetic::Vector3 Look( 0.0f, 100.0f, -100.0f );
-		ZED::Arithmetic::Vector3 Up( 0.0f, 1.0f, 0.0f );
+//		ZED::Arithmetic::Vector3 Look( 0.0f, 100.0f, -100.0f );
+//		ZED::Arithmetic::Vector3 Up( 0.0f, 1.0f, 0.0f );
 //		m_Position.X( m_XTrans );
-		m_pRenderer->SetViewLookAt( Position, Look, Up );
+//		m_pRenderer->SetViewLookAt( Position, Look, Up );
 		m_pRenderer->PerspectiveProjectionMatrix( &PerspProj );
 		m_pRenderer->GetWVP( &WorldMatrix );
 //		RotationMatrix.RotateY( m_YRotation );
@@ -134,7 +134,7 @@ namespace LD26
 		ZED_FLOAT32 Matrix[ 16 ];
 		ZED::Arithmetic::Matrix4x4 Translation;
 		Translation.Translate( m_Position );
-		WVP = PerspProj*WorldMatrix/*Translation*/*RotationMatrix;
+		WVP = PerspProj*WorldMatrix;
 		WVP.AsFloat( Matrix );
 		ZED::Arithmetic::Vector3 GlobalAmbient( 0.1f, 0.1f, 0.1f ),
 			LightColour( 1.0f, 1.0f, 1.0f ),
