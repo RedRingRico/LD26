@@ -101,6 +101,16 @@ namespace LD26
 			}
 		}
 
+
+		if( m_Pitch >= ( ( ZED_Pi / 2.0f ) - 0.01f ) )
+		{
+			m_Pitch =( ( ZED_Pi / 2.0f ) - 0.01f );
+		}
+		if( m_Pitch <= -( ( ZED_Pi / 2.0f ) - 0.01f ) )
+		{
+			m_Pitch = -( ( ZED_Pi / 2.0f ) - 0.01f );
+		}
+
 		m_RotationMatrix.RotateY( m_Yaw );
 //		m_RotationMatrix.Rotate( 0.0f, m_Pitch, m_Yaw ); <--NEED TO FIX!!
 		ZED::Arithmetic::Matrix4x4 RotX;
