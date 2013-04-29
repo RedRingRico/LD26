@@ -111,6 +111,39 @@ namespace LD26
 			m_Pitch = -( ( ZED_Pi / 2.0f ) - 0.01f );
 		}
 
+		// THIS FUCKING SUCKS!
+		if( m_Position[ 0 ] < -620.0f )
+		{
+			m_Position[ 0 ] = -620.0f;
+		}
+		if( m_Position[ 0 ] > 625.0f )
+		{
+			m_Position[ 0 ] = 625.0f;
+		}
+
+		if( m_Position[ 2 ] < -310.0f )
+		{
+			m_Position[ 2 ] = -310.0f;
+		}
+		if( m_Position[ 2 ] > 360.0f )
+		{
+			m_Position[ 2 ] = 360.0f;
+		}
+
+		ZED::Arithmetic::Vector3 MinOffset( -40.0f, 0.0f, -40.0f );
+		ZED::Arithmetic::Vector3 MaxOffset( 40.0f, 170.0f, 40.0f );
+		// Do collisions with the environment
+		m_BoundingBox.Min( m_Position + MinOffset );
+		m_BoundingBox.Max( m_Position + MaxOffset );
+
+/*		for( ZED_MEMSIZE i = 0; i < m_LevelObjects; ++i )
+		{
+			if( m_BoundingBox.Intersects( m_LevelObjects.BoundingBox( i ) ) )
+			{
+				zedTrace( "INTERSECTION WITH %d\n", i );
+			}
+		}*/
+
 		m_RotationMatrix.RotateY( m_Yaw );
 //		m_RotationMatrix.Rotate( 0.0f, m_Pitch, m_Yaw ); <--NEED TO FIX!!
 		ZED::Arithmetic::Matrix4x4 RotX;

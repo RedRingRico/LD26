@@ -98,8 +98,8 @@ namespace LD26
 			Y = ( NativeSize.Height / 2 ) - ( Height / 2 );
 		}
 
-//		Width = 800;
-//		Height = 600;
+//		Width = 1280;
+//		Height = 720;
 
 		m_pWindow->Create( X, Y, Width, Height );
 

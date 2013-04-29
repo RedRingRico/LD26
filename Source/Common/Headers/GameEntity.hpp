@@ -5,11 +5,13 @@
 #include <Vector3.hpp>
 #include <Matrix4x4.hpp>
 #include <Renderer.hpp>
+#include <AABB.hpp>
 
 namespace LD26
 {
 	class GameEntity
 	{
+	friend class GameEntityManager;
 	public:
 		virtual ZED_INLINE ~GameEntity( ){ }
 		ZED_INLINE void ID( ZED_UINT32 p_ID ){ m_ID = p_ID; }
@@ -33,6 +35,7 @@ namespace LD26
 	protected:
 		ZED_UINT32							m_ID;
 		ZED::Arithmetic::Vector3			m_Position;
+		ZED::Arithmetic::AABB				m_BoundingBox;
 
 	public:
 		static ZED::Arithmetic::Matrix4x4	m_ViewProjection;
