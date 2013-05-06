@@ -1,9 +1,60 @@
 #include <OGL/GLShader.hpp>
 #include <OGL/GLModel.hpp>
 #include <Level.hpp>
+#include <string>
+#include <errno.h>
+#include <unistd.h>
 
 namespace LD26
 {
+
+	ZED_UINT32 GetExecutablePath( char *p_pBuffer, ZED_MEMSIZE p_Size )
+	{
+		// /proc/[pid]/exe
+		char LinkName[ 64 ];
+		pid_t PID;
+		int Ret;
+		
+		// Get our PID and build the name of the link in /proc
+		PID = getpid( );
+		
+		if( snprintf( LinkName, sizeof( LinkName ), "/proc/%i/exe", PID ) < 0 )
+		{
+			return ZED_FAIL;
+		}
+		
+		// Now read the symbolic link
+		char FullPath[ p_Size ];
+		Ret = readlink( LinkName, FullPath, p_Size );
+		
+		// In case of an error, leave the handling up to the caller
+		if( Ret == -1 )
+		{
+			return ZED_FAIL;
+		}
+		
+		// Report insufficient buffer size
+		if( Ret >= p_Size )
+		{
+			errno = ERANGE;
+			return ZED_FAIL;
+		}
+		
+		// Ensure proper NULL termination
+		FullPath[ Ret ] = 0;
+		
+		// Find the last '/' and cull
+		std::string ExePath( FullPath );
+		ZED_MEMSIZE SlashLoc = ExePath.find_last_of( "/" );
+		ExePath.resize( SlashLoc );
+		ExePath.append( "/\0" );
+		
+		// Copy it, and we're done
+		strncpy( p_pBuffer, ExePath.c_str( ), ExePath.size( )+1 );
+		
+		return ZED_OK;
+	}
+
 	Level::Level( )
 	{
 		m_pModel = ZED_NULL;
@@ -44,13 +95,24 @@ namespace LD26
 			}
 		}
 
-		const ZED_CHAR8 *VShaderName =
-			"../../Data/Linux/Shaders/VertColour.vsh";
-		const ZED_CHAR8 *FShaderName =
-			"../../Data/Linux/Shaders/VertColour.fsh";
+		char *pBinDir = new char[ 256 ];
 
-		m_pShader->Compile( &VShaderName, ZED_VERTEX_SHADER, ZED_TRUE );
-		m_pShader->Compile( &FShaderName, ZED_FRAGMENT_SHADER, ZED_TRUE );
+		GetExecutablePath( pBinDir, 256 );
+
+		ZED_CHAR8 *VShaderName = new ZED_CHAR8[ 256 ];
+		memset( VShaderName, '\0', sizeof( ZED_CHAR8 )*256 );
+		strcat( VShaderName, pBinDir );
+		strcat( VShaderName, "../../Data/Linux/Shaders/VertColour.vsh" );
+
+		ZED_CHAR8 *FShaderName = new ZED_CHAR8[ 256 ];
+		memset( FShaderName, '\0', sizeof( ZED_CHAR8 )*256 );
+		strcat( FShaderName, pBinDir );
+		strcat( FShaderName, "../../Data/Linux/Shaders/VertColour.fsh" );
+
+		m_pShader->Compile( const_cast< const ZED_CHAR8 ** >( &VShaderName ),
+			ZED_VERTEX_SHADER, ZED_TRUE );
+		m_pShader->Compile( const_cast< const ZED_CHAR8 ** >( &FShaderName ),
+			ZED_FRAGMENT_SHADER, ZED_TRUE );
 
 		ZED_SHADER_VERTEXATTRIBUTE_GL pAttributes[ 2 ];
 
@@ -103,14 +165,27 @@ namespace LD26
 		Constant[ 9 ].pName = "uShininess";
 
 		m_pShader->SetConstantTypes( Constant, 10 );
+		ZED_CHAR8 *ModelName = new ZED_CHAR8[ 256 ];
+		memset( ModelName, '\0', sizeof( ZED_CHAR8 )*256 );
+		
+		strcat( ModelName, pBinDir );
+		strcat( ModelName, "../../Data/Linux/Models/level.zed" );
 
-		if( m_pModel->Load( "../../Data/Linux/Models/untitled.zed" ) !=
+		if( m_pModel->Load( ModelName ) !=
 			ZED_OK )
 		{
+			delete [ ] pBinDir;
+			pBinDir = ZED_NULL;
 			return ZED_FAIL;
 		}
 
-		return ZED_OK;	
+		zedTrace( "Shader: %s\n", VShaderName );
+
+		delete [ ] pBinDir;
+		pBinDir = ZED_NULL;
+		delete [ ] VShaderName;
+		delete [ ] FShaderName;
+		delete [ ] ModelName;
 
 		return ZED_OK;
 	}
