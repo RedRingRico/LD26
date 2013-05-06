@@ -117,28 +117,29 @@ namespace LD26
 
 	void Level::Update( )
 	{
+		static ZED_FLOAT32 m_YRotation = 0.0f;
 		ZED::Arithmetic::Matrix4x4 RotationMatrix;
 		ZED::Arithmetic::Matrix4x4 WorldMatrix;
 		ZED::Arithmetic::Matrix4x4 PerspProj;
 		ZED::Arithmetic::Matrix4x4 WVP;
-		ZED::Arithmetic::Vector3 Position( 0.0f, 170.0f, 10.0f );
+		ZED::Arithmetic::Vector3 Position( 0.0f, 10.0f, 0.0f );
 //		ZED::Arithmetic::Vector3 Look( 0.0f, 100.0f, -100.0f );
 //		ZED::Arithmetic::Vector3 Up( 0.0f, 1.0f, 0.0f );
 //		m_Position.X( m_XTrans );
 //		m_pRenderer->SetViewLookAt( Position, Look, Up );
 		m_pRenderer->PerspectiveProjectionMatrix( &PerspProj );
 		m_pRenderer->GetWVP( &WorldMatrix );
-//		RotationMatrix.RotateY( m_YRotation );
-//		m_YRotation += 0.01f;
+		RotationMatrix.RotateY( m_YRotation );
+		m_YRotation += 0.01f;
 
 		ZED_FLOAT32 Matrix[ 16 ];
-		ZED::Arithmetic::Matrix4x4 Translation;
-		Translation.Translate( m_Position );
+/*		ZED::Arithmetic::Matrix4x4 Translation;
+		Translation.Translate( m_Position );*/
 		WVP = PerspProj*WorldMatrix;
 		WVP.AsFloat( Matrix );
 		ZED::Arithmetic::Vector3 GlobalAmbient( 0.1f, 0.1f, 0.1f ),
 			LightColour( 1.0f, 1.0f, 1.0f ),
-			LightPosition( 12.0f, 12.0f, 0.0f ),
+			LightPosition( 0.0f, 100.0f, 0.0f ),
 			Emissive( 0.0f, 0.0f, 0.0f ), Ambient( 0.1f, 0.1f, 0.1f ),
 			Diffuse( 0.0f, 1.0f, 0.0f ), Specular( 0.0f, 0.0f, 0.0f );
 		ZED_FLOAT32 Shininess = 0.0f;
